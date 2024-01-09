@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!-- thymeleaf nos permite mostrar informacion directamente desde el backend desde los controladores hacia las vistas-->
+<html lang="es" xmlns:th="http://www.thymeleaf.org"> <!--Implementando el motor de plantillas "thymeleaf"-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Danly Market</title>
+
+  <!--Thymeleaf llamando a los recursos de bootstrap y el css-->
+  <!-- Bootstrap core CSS -->
+  <link th:href="@{vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link th:href="@{css/heroic-features.css}" rel="stylesheet">
+</head>
+
+
+<body>
+    <!--Navegation-->
+    <!--Incluyendo el fragment de header realizado en el template_admin-->
+    <div th:insert="~{admin/template_admin.html::header}"></div>
+
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Jumbotron Header -->
+      <header class="jumbotron my-4">
+        <h1 class="display-3">Bienvenido a Danly Market, usted es Admin</h1>
+        <p class="lead">Tu tienda de productos en Línea</p>
+      </header>
+
+      <!-- Page Features -->
+      <div class="row text-center">
+        <div class="col-lg-3 col-md-6 mb-4" th:each="i:${productos}">
+          <div class="card h-100">
+            <img class="card-img-top" th:src="@{/images/{img} ( img=${i.image} ) }" alt="">
+            <div class="card-body">
+              <p class="card-text" th:text="${i.name}"></p>
+            </div>
+            <div class="card-footer">
+              <a href="productohome.html" class="btn btn-success">Ver producto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+    <!--footer-->
+    <div th:insert="~{admin/template_admin.html::footer}"></div>
+
+
+    <!-- Llamando la jquery y el js de bootstrap-->
+    <!-- Bootstrap core JavaScript -->
+    <script th:src="@{vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+  </body>
+
+  </html>
