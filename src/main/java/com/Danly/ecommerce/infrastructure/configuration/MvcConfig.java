@@ -1,3 +1,4 @@
+//SPRING MVC
 package com.Danly.ecommerce.infrastructure.configuration;
 
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,8 @@ public class MvcConfig implements WebMvcConfigurer{
     //configurando el metodo que nos permitirá buscar las imagenes en su respectivo directorio
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**").addResourceLocations("file:images/"); //despues de buscar en el directorio, le pasamos la ruta
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("classpath:/images/"); // Ahora apunta a la carpeta resources/images
+        //Esto se hizo para que la carpeta images vaya incluida en el ejecutable jar y la app acceda a las imagenes sin problemas
     }
 }
