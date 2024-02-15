@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,37 +60,42 @@ public class OrderController {
         log.info("id user desde la variable de sesion {}",httpSession.getAttribute("iduser").toString());
         User user = userService.findById(Integer.parseInt(httpSession.getAttribute("iduser").toString()));
 
-        //order
-        Order order = new Order();
-        order.setDateCreated(LocalDateTime.now());
-        order.setUser(user);
 
-        order = orderService.createOrder(order); //Guardando la orden
+        if(cartService.getTotalCart().compareTo(BigDecimal.ZERO) > 0){
+            //order
+            Order order = new Order();
+            order.setDateCreated(LocalDateTime.now());
+            order.setUser(user);
 
-        //Order Product
-        List<OrderProduct> orderProducts = new ArrayList<>();
+            order = orderService.createOrder(order); //Guardando la orden
 
-        //ItemCart a OrderProduct
-        for(ItemCart itemCart : cartService.getItemCarts()){ //Recorriendo todos los productos dentro del carrito de compras
-            orderProducts.add(new OrderProduct(productService.getProductById(itemCart.getIdProduct()),itemCart.getQuantity(), order)); //aladiendo un nuevo item del carrito a la Lista de ordenes
+            //Order Product
+            List<OrderProduct> orderProducts = new ArrayList<>();
+
+            //ItemCart a OrderProduct
+            for (ItemCart itemCart : cartService.getItemCarts()) { //Recorriendo todos los productos dentro del carrito de compras
+                orderProducts.add(new OrderProduct(productService.getProductById(itemCart.getIdProduct()), itemCart.getQuantity(), order)); //aladiendo un nuevo item del carrito a la Lista de ordenes
+            }
+
+            //Guardando la lista de ordenes
+            orderProducts.forEach(
+                    op -> {
+                        orderProductService.create(op); //Guardando todos los elementos recorridos
+                        Stock stock = new Stock();
+                        stock.setDateCreated(LocalDateTime.now()); //Fecha actual de la transaccion
+                        stock.setProduct(op.getProduct()); //estableciendo el producto
+                        stock.setDescription("venta");
+                        stock.setUnitIn(UNIT_IN); //Reseteamos el parametro de entrada, se recomienda representar valores estaticos como constantes
+                        stock.setUnitOut(op.getQuantity()); //restando la cantidad que fue comprada
+                        stockService.saveStock(validateStock.calculateBalance(stock)); //Calculando cuanto queda despues de la venta
+                    }
+            );
+            cartService.removeAllItemsCart(); //limpiando el carrito
+            attributes.addFlashAttribute("id", httpSession.getAttribute("iduser").toString()); //enviando la variable de sesion
+            return "redirect:/home";
+        } else {
+            log.info("El resumen de la orden posee un precio menor o igual a 0");
+            return "redirect:/home";
         }
-
-        //Guardando la lista de ordenes
-        orderProducts.forEach(
-                op -> {
-                    orderProductService.create(op); //Guardando todos los elementos recorridos
-                    Stock stock = new Stock();
-                    stock.setDateCreated(LocalDateTime.now()); //Fecha actual de la transaccion
-                    stock.setProduct(op.getProduct()); //estableciendo el producto
-                    stock.setDescription("venta");
-                    stock.setUnitIn(UNIT_IN); //Reseteamos el parametro de entrada, se recomienda representar valores estaticos como constantes
-                    stock.setUnitOut(op.getQuantity()); //restando la cantidad que fue comprada
-                    stockService.saveStock(validateStock.calculateBalance(stock)); //Calculando cuanto queda despues de la venta
-                }
-        );
-        cartService.removeAllItemsCart(); //limpiando el carrito
-
-        attributes.addFlashAttribute("id", httpSession.getAttribute("iduser").toString()); //enviando la variable de sesion
-        return "redirect:/home";
     }
 }

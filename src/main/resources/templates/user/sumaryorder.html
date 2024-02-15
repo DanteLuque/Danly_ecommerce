@@ -87,8 +87,13 @@
 
                     <ul class="list-group">
                         <li class="list-group-item"><h5 th:text="${total}"> Total:</h5></li>
-                        <a th:href="@{/user/order/create-order}" class="btn btn-dark">Generar</a>
+                        <!-- Si el precio total es mayor a 0, habilitar el botón "Generar" -->
+                        <a th:href="@{/user/order/create-order}" class="btn btn-dark" th:if="${total > 0}">Generar</a>
+
+                        <!-- Si el precio total es igual o menor a 0, deshabilitar el botón "Generar" -->
+                        <button type="button" class="btn btn-dark" th:unless="${total > 0}" disabled  title="Primero debe realizar una orden">Generar</button>
                     </ul>
+
                 </div>
             </div>
         </div>
@@ -102,6 +107,8 @@
 <!-- Bootstrap core JavaScript -->
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+
 
 </body>
 
