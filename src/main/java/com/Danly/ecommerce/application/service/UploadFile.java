@@ -22,7 +22,7 @@ public class UploadFile {
             return multipartFile.getOriginalFilename(); //Una vez que el proceso de subir la imagen a la carpeta "images" este completado, retornaremos la ruta de la imagen subida para que sea tomada por el controlador correspondiente
         }
         return IMG_DEFAULT; //en caso de que no exista o no haya una imagen, retornaremos la imagen por defecto
-    }
+    } 
 
     //eliminaremos la imagen en caso de que se elimine o se actualice un producto
     public void delete(String nameFile){
