@@ -20,6 +20,7 @@ public class StockService {
         return stockRepository.saveStock(stock);
     }
 
+
     public List<Stock> getStockByProduct(Product product){
         return stockRepository.getStockByProduct(product);
     }

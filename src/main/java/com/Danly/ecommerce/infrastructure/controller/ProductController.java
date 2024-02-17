@@ -2,7 +2,9 @@ package com.Danly.ecommerce.infrastructure.controller;
 
 
 import com.Danly.ecommerce.application.service.ProductService;
+import com.Danly.ecommerce.application.service.StockService;
 import com.Danly.ecommerce.domain.Product;
+import com.Danly.ecommerce.domain.Stock;
 import com.Danly.ecommerce.domain.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/admin/products") //url a nivel de controlador
@@ -20,8 +23,10 @@ public class ProductController {
 
     //constructor
     private final ProductService productService; //creando una variable de tipo ProductService que sea final para que se pueda inyectar como constructor
-    public ProductController(ProductService productService) {
+    private final StockService stockService;
+    public ProductController(ProductService productService, StockService stockService) {
         this.productService = productService;
+        this.stockService = stockService;
     }
 
 
@@ -37,7 +42,16 @@ public class ProductController {
     public String saveProduct(Product product, @RequestParam("img") MultipartFile multipartFile, HttpSession httpSession) throws IOException { //la variable multipartFile será reconocida en la vista como "img"
         //con la anotacion @SLf4j nos permite usar log.info() envés de System.out.println() - sout
         log.info("Nombre de producto: {}", product); //imprimiendo directamente el objeto a traves de la anotacion "toString" de este objeto
-        productService.saveProduct(product, multipartFile, httpSession); //guardando el producto
+        Product savedProduct = productService.saveProduct(product, multipartFile, httpSession); //guardando el producto
+        // Inicializar el stock del producto en 1
+        Stock initialStock = new Stock();
+        initialStock.setUnitIn(1);
+        initialStock.setBalance(1); // Inicializar el balance en 1
+        initialStock.setDescription("inicial");
+        initialStock.setDateCreated(LocalDateTime.now());
+        initialStock.setProduct(savedProduct);
+        stockService.saveStock(initialStock);
+
         //return "admin/products/create";
         return "redirect:/admin"; //funcion "redirect" de spring boot que nos permite accederdirectamente al controlador "admin", usando en este caso, su unico metodo el cual es mostrar el home de admin
     }
