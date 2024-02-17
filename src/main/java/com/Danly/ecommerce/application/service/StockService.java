@@ -24,4 +24,14 @@ public class StockService {
     public List<Stock> getStockByProduct(Product product){
         return stockRepository.getStockByProduct(product);
     }
+
+    //Obteniendo el stock total en un solo objeto para ser comparado con la cantidad solicitada en el CartController
+    public Stock getTotalStockByProduct(Product product){
+        List<Stock> stockList = stockRepository.getStockByProduct(product);
+        int totalBalance = stockList.stream().mapToInt(Stock::getBalance).sum();
+        Stock totalStock = new Stock();
+        totalStock.setBalance(totalBalance);
+        return totalStock;
+    }
+
 }

@@ -61,7 +61,7 @@ public class OrderController {
         User user = userService.findById(Integer.parseInt(httpSession.getAttribute("iduser").toString()));
 
 
-        if(cartService.getTotalCart().compareTo(BigDecimal.ZERO) > 0){
+        if(cartService.getTotalCart().compareTo(BigDecimal.ZERO) > 0){ //Solo se generará una orden de compra si el precio total de la lista del carrito es mayor a 0
             //order
             Order order = new Order();
             order.setDateCreated(LocalDateTime.now());
@@ -74,7 +74,7 @@ public class OrderController {
 
             //ItemCart a OrderProduct
             for (ItemCart itemCart : cartService.getItemCarts()) { //Recorriendo todos los productos dentro del carrito de compras
-                orderProducts.add(new OrderProduct(productService.getProductById(itemCart.getIdProduct()), itemCart.getQuantity(), order)); //aladiendo un nuevo item del carrito a la Lista de ordenes
+                orderProducts.add(new OrderProduct(productService.getProductById(itemCart.getIdProduct()), itemCart.getQuantity(), order)); //añadiendo un nuevo item del carrito a la Lista de ordenes
             }
 
             //Guardando la lista de ordenes

@@ -9,4 +9,5 @@ public interface StockRepository {
 
     Stock saveStock(Stock stock);
     List<Stock> getStockByProduct(Product product);
+
 }

@@ -34,4 +34,6 @@ public class StockRepositoryImpl implements StockRepository {
     public List<Stock> getStockByProduct(Product product) {
         return stockMapper.toStocks(stockCrudRepository.findByProductEntity(productMapper.toProductEntity(product)));
     }
+
+
 }
