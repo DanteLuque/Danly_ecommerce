@@ -1,8 +1,8 @@
 package com.Danly.ecommerce.infrastructure.controller;
 
 import com.Danly.ecommerce.application.service.CartService;
+import com.Danly.ecommerce.application.service.ProductService;
 import com.Danly.ecommerce.application.service.StockService;
-import com.Danly.ecommerce.domain.Product;
 import com.Danly.ecommerce.domain.Stock;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user/cart")
@@ -18,20 +19,19 @@ import java.math.BigDecimal;
 public class CartController {
     private final CartService cartService;
     private final StockService stockService;
+    private final ProductService productService;
 
-    public CartController(CartService cartService, StockService stockService) {
+    public CartController(CartService cartService, StockService stockService, ProductService productService) {
         this.cartService = cartService;
         this.stockService = stockService;
 
+        this.productService = productService;
     }
 
     @PostMapping("/add-product")
     public String addProductCart(@RequestParam Integer quantity, @RequestParam Integer idProduct, @RequestParam String nameProduct, @RequestParam BigDecimal price){
-        Product product = new Product();
-        product.setId(idProduct);
-
-        Stock stock = stockService.getTotalStockByProduct(product);
-        int balance = stock.getBalance();
+        List<Stock> stocks = stockService.getStockByProduct(productService.getProductById(idProduct));
+        Integer balance = stocks.get(stocks.size()-1).getBalance();
 
         if(quantity > 1 && quantity <= balance) {
             cartService.addItemCart(quantity, idProduct, nameProduct, price); //añadiendo un nuevo producto al carrito de compras junto a todas las caracteristicas necesarias

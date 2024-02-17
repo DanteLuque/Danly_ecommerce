@@ -59,7 +59,10 @@
 
                         <ul class="list-group">
                             <li class="list-group-item"><h5 th:text=" 'Precio : $'+ ${producto.price}"></h5></li>
-                            <li class="list-group-item"><h5 th:text=" 'Stock : '+ ${stock}+ ' unidades'"></h5></li>
+                            <li class="list-group-item">
+                                <h5 th:if="${stock >=1}"  th:text=" 'Stock : '+ ${stock}+ ' unidades'"></h5>
+                                <h5 th:unless="${stock >=1}"  th:text=" 'Stock :  AGOTADO'"></h5>
+                            </li>
                             <li class="list-group-item">
                                 <p th:text="'Descripción: '+ ${producto.description}"></p>
                             </li>

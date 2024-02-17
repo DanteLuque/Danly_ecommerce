@@ -30,6 +30,8 @@ public class HomeController {
 
     @GetMapping
     public String home(Model model, HttpSession httpSession){
+
+
         model.addAttribute("productos", productService.getProducts()); //mostrando todos los productos
         try{
             model.addAttribute("id", httpSession.getAttribute("iduser").toString());

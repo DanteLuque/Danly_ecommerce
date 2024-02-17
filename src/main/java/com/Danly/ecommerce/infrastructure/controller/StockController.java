@@ -28,7 +28,7 @@ public class StockController{
         Product product = new Product(); //Creando un nuevo producto para que sea obtenido por su id y se agregue en el listado de stocks
         product.setId(id); //le establecemos el id que se obtendrá desde la url
         List<Stock> stocks = stockService.getStockByProduct(product);
-        model.addAttribute("stocks", stocks); //enviando la informacion que se mostrará en la vista
+        model.addAttribute("stocks", stocks); //enviando la informacion que se mostrará en la vista(los stocks registrados)
         model.addAttribute("idproduct", id); //le pasamos el id de producto que va a ser recorrido en la vista
         return "admin/stock/show"; //Indicando que retorne el resultado en la vista show de stock
     }
