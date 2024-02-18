@@ -24,7 +24,6 @@ public class CartController {
     public CartController(CartService cartService, StockService stockService, ProductService productService) {
         this.cartService = cartService;
         this.stockService = stockService;
-
         this.productService = productService;
     }
 
@@ -33,7 +32,7 @@ public class CartController {
         List<Stock> stocks = stockService.getStockByProduct(productService.getProductById(idProduct));
         Integer balance = stocks.get(stocks.size()-1).getBalance();
 
-        if(quantity > 1 && quantity <= balance) {
+        if(quantity >= 1 && quantity <= balance) {
             cartService.addItemCart(quantity, idProduct, nameProduct, price); //añadiendo un nuevo producto al carrito de compras junto a todas las caracteristicas necesarias
         }
         showCart();

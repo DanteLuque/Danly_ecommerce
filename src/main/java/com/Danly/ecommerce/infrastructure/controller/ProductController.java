@@ -1,6 +1,7 @@
 package com.Danly.ecommerce.infrastructure.controller;
 
 
+import com.Danly.ecommerce.application.service.CartService;
 import com.Danly.ecommerce.application.service.ProductService;
 import com.Danly.ecommerce.application.service.StockService;
 import com.Danly.ecommerce.domain.Product;
@@ -24,9 +25,11 @@ public class ProductController {
     //constructor
     private final ProductService productService; //creando una variable de tipo ProductService que sea final para que se pueda inyectar como constructor
     private final StockService stockService;
-    public ProductController(ProductService productService, StockService stockService) {
+    private final CartService cartService;
+    public ProductController(ProductService productService, StockService stockService, CartService cartService) {
         this.productService = productService;
         this.stockService = stockService;
+        this.cartService = cartService;
     }
 
 

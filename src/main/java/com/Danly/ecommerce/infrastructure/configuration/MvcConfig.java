@@ -14,5 +14,7 @@ public class MvcConfig implements WebMvcConfigurer{
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("classpath:/images/"); // Ahora apunta a la carpeta resources/images
         //Esto se hizo para que la carpeta images vaya incluida en el ejecutable jar y la app acceda a las imagenes sin problemas
+
+
     }
 }

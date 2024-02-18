@@ -34,6 +34,7 @@ public class ProductService {
         return  productRepository.getProductById(id);
     }
 
+
     public Product saveProduct(Product product, MultipartFile multipartFile, HttpSession httpSession) throws IOException { //Guardado o actualizado de productos
         if(product.getId()==null){ //Si es id es igual a null, es decir, si es nuevo, realizará un guardado
             User user = new User();

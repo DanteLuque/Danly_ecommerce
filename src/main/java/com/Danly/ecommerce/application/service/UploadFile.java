@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class UploadFile {
-    private final String FOLDER = "images//"; //ruta donde se guardarán las imagenes
+    private final String FOLDER = "src/main/resources/images/";//ruta donde se guardarán las imagenes
     private final String IMG_DEFAULT = "default.jpg"; //ingresando una imagen por defecto en caso de que no se haya subido una imagen
 
     public String upload(MultipartFile multipartFile) throws IOException {//dato de tipo "MultiparFile", guardará la imagen y la pasamos como argumento
