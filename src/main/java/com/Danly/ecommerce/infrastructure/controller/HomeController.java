@@ -4,6 +4,8 @@ package com.Danly.ecommerce.infrastructure.controller;
 //controlador que nos servirá para mapear la ruta /home
 import com.Danly.ecommerce.application.service.ProductService;
 import com.Danly.ecommerce.application.service.StockService;
+
+import com.Danly.ecommerce.domain.Product;
 import com.Danly.ecommerce.domain.Stock;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/home")
@@ -31,8 +36,23 @@ public class HomeController {
     @GetMapping
     public String home(Model model, HttpSession httpSession){
 
+        Iterable<Product> productos = productService.getProducts();
+        List<Integer> stockList = new ArrayList<>();
 
-        model.addAttribute("productos", productService.getProducts()); //mostrando todos los productos
+        for (Product i : productos) {
+            List<Stock> stocks = stockService.getStockByProduct(i);
+            if (!stocks.isEmpty()) {
+                // Obtener el último stock de cada producto
+                Integer lastBalance = stocks.get(stocks.size() - 1).getBalance();
+                stockList.add(lastBalance);
+
+            } else {
+                // Si no hay stock para este producto, agregar un valor predeterminado
+                stockList.add(0);
+            }
+        }
+        model.addAttribute("productos",productos); //mostrando todos los productos
+        model.addAttribute("stocks", stockList); //mostrando toda la lista de stock
         try{
             model.addAttribute("id", httpSession.getAttribute("iduser").toString());
         }catch(Exception e){
@@ -58,5 +78,8 @@ public class HomeController {
         }
         return "user/productdetail";
     }
+
 }
+
+
 

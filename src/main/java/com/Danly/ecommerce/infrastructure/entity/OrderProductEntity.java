@@ -6,10 +6,10 @@
 */
 package com.Danly.ecommerce.infrastructure.entity;
 
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Data
 @Entity
@@ -25,8 +25,11 @@ public class OrderProductEntity {
     OrderProductEntity.
      */
     @EmbeddedId
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private OrderProductPK pk;
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Integer quantity;
+
 }
 
 /*

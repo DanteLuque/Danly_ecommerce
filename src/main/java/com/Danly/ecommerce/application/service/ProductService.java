@@ -26,6 +26,7 @@ public class ProductService {
         return  productRepository.getProducts();
     }
 
+
     public Iterable<Product> getProductsByUser(User user){ //Obteniendo producto por usuario
         return productRepository.getProductsByUser(user);
     }
