@@ -27,7 +27,19 @@ public class UserDto {
     @NotBlank(message = "contraseña es requerida") //Indicamos que este campo debe estar lleno, caso contrario, le mandamos este mensaje
     private String password;
 
+    private UserType userType; // Nuevo campo para el rol del usuario
+
+
     public User userDtoToUser(){ //convierte userDto a usuario
-        return new User(null, this.getEmail(), this.getFirstName(), this.getLastName(), this.getEmail(), this.getAddress(), this.getCellphone(), this.getPassword(), UserType.USER, LocalDateTime.now()); //Creamos un nuevo usuario para que la UserDto se convierta a USER
+        return new User(null, this.getEmail(),
+                                  this.getFirstName(),
+                                  this.getLastName(),
+                                  this.getEmail(),
+                                  this.getAddress(),
+                                  this.getCellphone(),
+                                  this.getPassword(),
+                                  //UserType.USER,
+                                  this.getUserType(), // Utilizamos el rol seleccionado por el usuario
+                                  LocalDateTime.now()); //Creamos un nuevo usuario para que la UserDto se convierta a USER
     }
 }

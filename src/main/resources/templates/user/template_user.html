@@ -30,7 +30,7 @@
 <div th:fragment ="userlogged">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" th:href="@{/home}">Spring eCommerce</a>
+            <a class="navbar-brand" th:href="@{/home}">Danly Market</a>
 
             <form class="form-inline my-2 my-lg-0" method="post"
                   action="#">
@@ -49,7 +49,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">
-                            USER
+                            <span th:text="${nombreUsuario}+'(USER)'"></span>
                         </a>
 
                         <div class="dropdown-menu"

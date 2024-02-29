@@ -33,11 +33,14 @@
 
       <!-- Page Features -->
       <div class="row text-center">
-        <div class="col-lg-3 col-md-6 mb-4" th:each="i:${productos}">
+        <div class="col-lg-3 col-md-6 mb-4" th:each="i,j:${productos}">
           <div class="card h-100">
             <img class="card-img-top" th:src="@{/images/{img} ( img=${i.image} ) }" alt="">
             <div class="card-body">
               <p class="card-text" th:text="${i.name}"></p>
+                <p class="card-text" th:text="'Precio: '+${i.price}+'$'"></p>
+                <!--Un iterador j que mostrará el stock cuyo indice sea el mismo indice del producto-->
+                <p class="card-text" th:text="'Unidades: '+${stocks[__${j.index}__]}"></p>
             </div>
             <div class="card-footer">
               <a href="index.html" class="btn btn-success">Ver producto</a>

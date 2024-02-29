@@ -7,8 +7,11 @@ import com.Danly.ecommerce.application.service.StockService;
 
 import com.Danly.ecommerce.domain.Product;
 import com.Danly.ecommerce.domain.Stock;
+import com.Danly.ecommerce.infrastructure.dto.UserDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +39,10 @@ public class HomeController {
     @GetMapping
     public String home(Model model, HttpSession httpSession){
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+
         Iterable<Product> productos = productService.getProducts();
         List<Integer> stockList = new ArrayList<>();
 
@@ -53,8 +60,12 @@ public class HomeController {
         }
         model.addAttribute("productos",productos); //mostrando todos los productos
         model.addAttribute("stocks", stockList); //mostrando toda la lista de stock
+
         try{
             model.addAttribute("id", httpSession.getAttribute("iduser").toString());
+
+            // Agregar el nombre de usuario al modelo para mostrar en la vista
+            model.addAttribute("nombreUsuario", username);
         }catch(Exception e){
             //La primera vez que arranque la aplicacion, no habrá ningun usuario logeado, asi que dicho model retornará un null
         }
