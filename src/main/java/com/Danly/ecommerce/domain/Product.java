@@ -16,7 +16,8 @@ public class Product {
     private  String code;
     private String name;
     private String description;
-    private String image;
+   // private String image;
+    private byte[] image;
     private BigDecimal price;
 
     private LocalDateTime dateCreated;

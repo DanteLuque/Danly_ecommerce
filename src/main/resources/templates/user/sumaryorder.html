@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Spring eCommerce</title>
+    <title>Danly Market</title>
 
 
     <!-- Bootstrap core CSS -->
@@ -26,17 +26,19 @@
 <div th:insert = "~{user/template_user::header}" th:if="${id==null}"></div> <!--Si no hay ningun usuario logeado, nos mostrará este div-->
 
 <div th:insert = "~{user/template_user::userlogged}" th:unless="${id==null}"></div> <!--Caso contrario, mostraremos este-->
+
 <!-- Page Content -->
 <div class="container">
 
 
     <!-- Page Heading/Breadcrumbs -->
     <h1 class="mt-4 mb-3">
-        Spring eCommerce <small>Resumen de la orden</small>
+        Danly Market <small>Resumen de la orden</small>
     </h1>
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
+        <li class="breadcrumb-item"><a th:href="@{/user/cart/get-cart}">Carrito</a></li>
         <li class="breadcrumb-item active">Orden</li>
     </ol>
 
