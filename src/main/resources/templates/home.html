@@ -36,7 +36,7 @@
         <div class="col-lg-3 col-md-6 mb-4" th:each="i,j:${productos}">
           <div class="card h-100">
             <div class="img-container" style="height: 300px; overflow: hidden;">
-            <img class="card-img-top  img-fluid" th:src="@{/images/{img} ( img=${i.image} ) }" alt=""
+            <img class="card-img-top  img-fluid" th:src="@{/product-image/{id} (id=${i.id})}" alt=""
                  style="object-fit: cover; width: 100%; height: 100%;">
             </div>
             <div class="card-body">

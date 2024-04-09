@@ -15,8 +15,8 @@ public class BeanConfiguration {
     //los Bean sirven para poder inyectar estas clases en cualquier parte del proyecto
 
     @Bean
-    public ProductService productService(ProductRepository productRepository, UploadFile uploadFile){
-        return new ProductService(productRepository,uploadFile); //agregamos uploadFile al bean de ProductService para que nos permita inicializarlo en su constructor
+    public ProductService productService(ProductRepository productRepository){
+        return new ProductService(productRepository); //agregamos uploadFile al bean de ProductService para que nos permita inicializarlo en su constructor
     }
 
     @Bean

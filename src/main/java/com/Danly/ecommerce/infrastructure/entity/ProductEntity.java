@@ -1,11 +1,8 @@
 package com.Danly.ecommerce.infrastructure.entity;
 
-import com.Danly.ecommerce.domain.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,7 +20,15 @@ public class ProductEntity {
     private  String code;
     private String name;
     private String description;
-    private String image;
+
+
+   // private String image;
+
+    @Lob  // Indica que este campo es un objeto grande (LOB)
+    @Column(columnDefinition = "MEDIUMBLOB") // Esto es para MySQL, ajusta según tu DB si es necesario
+    private byte[] image;  // Cambiado de String a byte[] para almacenar la imagen
+
+
     private BigDecimal price;
 
     private LocalDateTime dateCreated;

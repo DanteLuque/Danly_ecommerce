@@ -45,7 +45,14 @@ public class ProductController {
     public String saveProduct(Product product, @RequestParam("img") MultipartFile multipartFile, HttpSession httpSession) throws IOException { //la variable multipartFile será reconocida en la vista como "img"
         //con la anotacion @SLf4j nos permite usar log.info() envés de System.out.println() - sout
         log.info("Nombre de producto: {}", product); //imprimiendo directamente el objeto a traves de la anotacion "toString" de este objeto
+
+        // Convertir MultipartFile a byte[] y asignarlo al objeto product antes de guardarlo
+        if (!multipartFile.isEmpty()) {
+            product.setImage(multipartFile.getBytes());
+        }
+
         Product savedProduct = productService.saveProduct(product, multipartFile, httpSession); //guardando el producto
+
         // Inicializar el stock del producto en 1
         Stock initialStock = new Stock();
         initialStock.setUnitIn(1);
