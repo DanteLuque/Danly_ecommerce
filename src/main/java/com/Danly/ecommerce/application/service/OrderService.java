@@ -25,4 +25,7 @@ public class OrderService {
     public Iterable<Order> getOrdersByUser(User user){
         return orderRepository.getOrdersByUser(user); //Implementamos o inicializamos el metodo
     }
+    public Order getOrderByIdAndUser(Integer id, User user) {
+        return orderRepository.findByIdAndUser(id, user).orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+    }
 }
