@@ -31,15 +31,13 @@ public class AdminController {
 
     @GetMapping //indicando que es una peticion de tipo GET
     public String home(Model model, HttpSession httpSession){
-         /*User user = new User();
-          user.setId(1); //inicializando con el primer usuario de la db
-         */
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
         User user = new User();
         user.setId(Integer.parseInt(httpSession.getAttribute("iduser").toString()));
+
         Iterable<Product> products = productService.getProductsByUser(user); //Objeto iterable de tipo "Product" cuyo nombre será "products", obtendrá solo los productos de un usuario determinado
 
         List<Integer> stockList = new ArrayList<>();

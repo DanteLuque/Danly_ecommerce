@@ -3,9 +3,12 @@ package com.Danly.ecommerce.infrastructure.adapter;
 import com.Danly.ecommerce.application.repository.ProductRepository;
 import com.Danly.ecommerce.domain.Product;
 import com.Danly.ecommerce.domain.User;
+import com.Danly.ecommerce.infrastructure.entity.ProductEntity;
 import com.Danly.ecommerce.infrastructure.mapper.ProductMapper;
 import com.Danly.ecommerce.infrastructure.mapper.UserMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
@@ -42,5 +45,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public void deleteProductById(Integer id) {
         productCrudRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<Product> searchByName(String name) {
+        List<ProductEntity> productEntities = productCrudRepository.findByNameContainingIgnoreCase(name);
+        return productMapper.toProducts(productEntities);
     }
 }

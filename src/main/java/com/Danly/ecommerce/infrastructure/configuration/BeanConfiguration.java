@@ -18,11 +18,11 @@ public class BeanConfiguration {
     public ProductService productService(ProductRepository productRepository){
         return new ProductService(productRepository); //agregamos uploadFile al bean de ProductService para que nos permita inicializarlo en su constructor
     }
-
+/*
     @Bean
     public UploadFile uploadFile(){
         return new UploadFile(); //parametros vacios ya que esta clase no posee un constructor
-    }
+    }*/
 
     //El Bean se crea gracias al constructor dentro de los service los cuales usan una interfaz hecha en el repository
     @Bean

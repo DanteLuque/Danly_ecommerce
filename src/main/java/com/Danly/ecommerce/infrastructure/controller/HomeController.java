@@ -7,7 +7,6 @@ import com.Danly.ecommerce.application.service.StockService;
 
 import com.Danly.ecommerce.domain.Product;
 import com.Danly.ecommerce.domain.Stock;
-import com.Danly.ecommerce.infrastructure.dto.UserDto;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -17,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import java.util.ArrayList;
@@ -37,35 +37,28 @@ public class HomeController {
     }
 
     @GetMapping
-    public String home(Model model, HttpSession httpSession){
-
+    public String home(@RequestParam(value = "searchTerm", required = false)  String searchTerm, Model model, HttpSession httpSession){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
 
-        Iterable<Product> productos = productService.getProducts();
+        Iterable<Product> productos = (searchTerm != null && !searchTerm.isEmpty()) ?  productService.findByNameContainingIgnoreCase(searchTerm) : productService.getProducts() ;
         List<Integer> stockList = new ArrayList<>();
 
         for (Product i : productos) {
             List<Stock> stocks = stockService.getStockByProduct(i);
             if (!stocks.isEmpty()) {
-                // Obtener el último stock de cada producto
-                Integer lastBalance = stocks.get(stocks.size() - 1).getBalance();
+                Integer lastBalance = stocks.get(stocks.size() - 1).getBalance(); // Obtener el último stock de cada producto
                 stockList.add(lastBalance);
-
-            } else {
-                // Si no hay stock para este producto, agregar un valor predeterminado
-                stockList.add(0);
+            }else {
+                stockList.add(0); // Si no hay stock para este producto, agregar un valor predeterminado
             }
         }
         model.addAttribute("productos",productos); //mostrando todos los productos
         model.addAttribute("stocks", stockList); //mostrando toda la lista de stock
-
         try{
             model.addAttribute("id", httpSession.getAttribute("iduser").toString());
-
-            // Agregar el nombre de usuario al modelo para mostrar en la vista
-            model.addAttribute("nombreUsuario", username);
+            model.addAttribute("nombreUsuario", username);// Agregar el nombre de usuario al modelo para mostrar en la vista
         }catch(Exception e){
             //La primera vez que arranque la aplicacion, no habrá ningun usuario logeado, asi que dicho model retornará un null
         }
@@ -89,6 +82,12 @@ public class HomeController {
         }
         return "user/productdetail";
     }
+
+
+
+
+
+
 
 }
 

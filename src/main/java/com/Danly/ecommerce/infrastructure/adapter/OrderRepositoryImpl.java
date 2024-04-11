@@ -4,9 +4,12 @@ package com.Danly.ecommerce.infrastructure.adapter;
 import com.Danly.ecommerce.application.repository.OrderRepository;
 import com.Danly.ecommerce.domain.Order;
 import com.Danly.ecommerce.domain.User;
+import com.Danly.ecommerce.infrastructure.entity.UserEntity;
 import com.Danly.ecommerce.infrastructure.mapper.OrderMapper;
 import com.Danly.ecommerce.infrastructure.mapper.UserMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public class OrderRepositoryImpl implements OrderRepository {
@@ -35,5 +38,15 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public Iterable<Order> getOrdersByUser(User user) {
         return orderMapper.toOrders(orderCrudRepository.findByUser(userMapper.toUserEntity(user))); //Devolviendo una lista de ordenes filtrada por usuario
+    }
+
+    @Override
+    public Optional<Order> findByIdAndUser(Integer id, User user) {
+        // Convertimos el User a UserEntity para la consulta
+        UserEntity userEntity = userMapper.toUserEntity(user);
+
+        // Realizamos la búsqueda por ID y UserEntity
+        return orderCrudRepository.findByIdAndUser(id, userEntity)
+                .map(orderEntity -> orderMapper.toOrder(orderEntity));
     }
 }
