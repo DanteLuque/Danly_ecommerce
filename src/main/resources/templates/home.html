@@ -31,6 +31,20 @@
         <p class="lead">Tu tienda de productos en Línea</p>
       </header>
 
+      <!--buscar-->
+        <div class="container">
+          <span class="navbar-brand" >Danly Market</span>
+
+          <form class="form-inline my-2 my-lg-0"  method="get" th:action="@{/home}">
+            <input class="form-control mr-sm-2" type="search" placeholder="Buscar en Danly Market" aria-label="Search" name="searchTerm" autocomplete="off">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+          </form>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+
+
       <!-- Page Features -->
       <div class="row text-center">
         <div class="col-lg-3 col-md-6 mb-4" th:each="i,j:${productos}">

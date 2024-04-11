@@ -14,11 +14,10 @@ public class ProductService {
 
     //constructor
     private final ProductRepository productRepository;
-  //  private final UploadFile uploadFile;
 
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
-   //     this.uploadFile = uploadFile;
+
     }
 
     //metodos que inicializan o ejecutan los servicios establecidos en ProductRepository
@@ -60,5 +59,10 @@ public class ProductService {
     }
     public void deleteProductById(Integer id){ //eliminacion de producto por id
         productRepository.deleteProductById(id);
+    }
+
+    public Iterable<Product> findByNameContainingIgnoreCase(String name) {
+        // Suponiendo que tienes un método en tu repositorio para buscar por nombre
+        return productRepository.searchByName(name);
     }
 }
